@@ -28,6 +28,7 @@ def analyze_with_gpt(data):
     5. **Generative Engine Optimization Strategies**: Suggest ways in which website content can appear in outputs of generative AI models.
 
     Format your response clearly, indicating the 'Before' and 'After' for each section, with examples where appropriate.
+    Add analysis of Title, Description, Headers, Paragraphs, Broken Links, Duplicate Content, Robots.txt Content, Sitemap Content at the bottom where applicable.
     """
 
     response = openai.ChatCompletion.create(
