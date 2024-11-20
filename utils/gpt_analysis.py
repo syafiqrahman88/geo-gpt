@@ -25,7 +25,7 @@ def analyze_with_gpt(data):
     2. **Content Optimization**: Provide recommendations for topic clustering, clearer headings, and FAQs.
     3. **Engagement Boosters**: Recommend interactive features and personalized landing pages.
     4. **User Experience Feedback**: Give insights on readability, flow, and accessibility.
-    5. **Generative Engine Optimization Strategies**: Suggest content generation techniques and user engagement strategies.
+    5. **Generative Engine Optimization Strategies**: Suggest ways in which website content can appear in outputs of generative AI models.
 
     Format your response clearly, indicating the 'Before' and 'After' for each section, with examples where appropriate.
     """
