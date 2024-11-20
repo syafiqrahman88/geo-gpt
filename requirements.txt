@@ -1,5 +1,5 @@
 streamlit
 requests
 beautifulsoup4
-openai>=1.0.0
+openai==0.28
 python-dotenv==0.19.2
