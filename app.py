@@ -8,7 +8,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 # Streamlit app title
-st.title("Sequencr Consulting GEO Analyzer")
+st.title("Sequencr Consulting Generative Engine Optimization (GEO) Analyzer")
 
 # User input for URL
 url = st.text_input("Enter website URL")
