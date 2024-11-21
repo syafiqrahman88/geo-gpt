@@ -14,17 +14,12 @@ def crawl_website(url):
         soup = BeautifulSoup(response.text, 'html.parser')
         
         title = soup.title.string if soup.title else 'No title found'
-        
-        # Limit the description to a maximum of 150 characters
         description = soup.find('meta', attrs={'name': 'description'})
-        description_content = description['content'][:150] + '...' if description else 'No description found'
+        description_content = description['content'] if description else 'No description found'
         
-        # Limit the number of headers collected to a maximum of 5
-        headers = [h.get_text() for h in soup.find_all(['h1', 'h2', 'h3'])][:5]
+        headers = [h.get_text() for h in soup.find_all(['h1', 'h2', 'h3'])]
+        paragraphs = [p.get_text() for p in soup.find_all('p')]
         
-        # Remove paragraphs entirely
-        paragraphs = []  # Exclude paragraphs to reduce text
-
         links = [a['href'] for a in soup.find_all('a', href=True)]
         broken_links = []
         for link in links:
@@ -36,8 +31,7 @@ def crawl_website(url):
                 broken_links.append(full_url)
                 print(f"Broken link found: {full_url} - Error: {e}")
 
-        # Remove duplicate content collection
-        duplicate_content = []  # Exclude duplicate content
+        duplicate_content = set([p for p in paragraphs if paragraphs.count(p) > 1])
 
         # Construct robots.txt URL
         robots_url = urljoin(url, '/robots.txt')
@@ -55,11 +49,12 @@ def crawl_website(url):
             'title': title,
             'description': description_content,
             'headers': headers,
-            'paragraphs': paragraphs,  # No paragraphs collected
+            'paragraphs': paragraphs,  # Collecting paragraphs
             'broken_links': broken_links,
-            'duplicate_content': duplicate_content,  # No duplicate content collected
+            'duplicate_content': list(duplicate_content),  # Collecting duplicate content
             'robots_content': robots_content,
             'sitemap_content': sitemap_content
         }
     else:
         return None
+        
