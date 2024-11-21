@@ -3,4 +3,3 @@ requests
 beautifulsoup4
 openai==0.28
 python-dotenv==0.19.2
-tiktoken
