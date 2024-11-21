@@ -1,9 +1,13 @@
 import openai
 import os
 from dotenv import load_dotenv
+import tiktoken
 
 # Load environment variables from .env file
 load_dotenv()
+
+# Initialize the tokenizer for the GPT-4 model
+encoding = tiktoken.encoding_for_model("gpt-4")
 
 def analyze_with_gpt(data):
     openai.api_key = os.getenv('OPENAI_API_KEY')  # Get the OpenAI API key from environment variables
@@ -44,6 +48,16 @@ def analyze_with_gpt(data):
             'paragraphs': paragraph_chunk  # Use the chunk of paragraphs
         }
         prompt = create_prompt(current_chunk)
+
+        # Count tokens in the prompt
+        num_tokens = len(encoding.encode(prompt))
+        print(f"Number of tokens in prompt: {num_tokens}")  # Debugging line
+
+        # Check if the number of tokens exceeds the limit
+        if num_tokens > 8192:
+            print("Prompt exceeds token limit, consider reducing input size.")  # Debugging line
+            continue  # Skip this chunk or handle it as needed
+
         response = openai.ChatCompletion.create(
             model="gpt-4",
             messages=[{"role": "user", "content": prompt}]
