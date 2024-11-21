@@ -30,46 +30,20 @@ def analyze_with_gpt(data):
         5. **Generative Engine Optimization Strategies**: Suggest strategies in which website content can appear in outputs of generative AI models.
         """
 
-    # Split paragraphs into chunks if they exceed a certain length
-    max_paragraph_length = 2000  # Adjust this value based on your needs
-    paragraphs = data['paragraphs']
-    chunks = []
-    
-    current_chunk = {
-        'title': data['title'],
-        'description': data['description'],
-        'headers': data['headers'],
-        'broken_links': data['broken_links'],
-        'duplicate_content': data['duplicate_content'],
-        'robots_content': data['robots_content'],
-        'sitemap_content': data['sitemap_content'],
-        'paragraphs': []
-    }
-
-    for paragraph in paragraphs:
-        if len(' '.join(current_chunk['paragraphs'] + [paragraph])) > max_paragraph_length:
-            chunks.append(current_chunk)
-            current_chunk = {
-                'title': data['title'],
-                'description': data['description'],
-                'headers': data['headers'],
-                'broken_links': data['broken_links'],
-                'duplicate_content': data['duplicate_content'],
-                'robots_content': data['robots_content'],
-                'sitemap_content': data['sitemap_content'],
-                'paragraphs': [paragraph]
-            }
-        else:
-            current_chunk['paragraphs'].append(paragraph)
-
-    # Add the last chunk if it exists
-    if current_chunk['paragraphs']:
-        chunks.append(current_chunk)
-
     # Collect responses from each chunk
     responses = []
-    for chunk in chunks:
-        prompt = create_prompt(chunk)
+    for paragraph_chunk in data['paragraphs']:
+        current_chunk = {
+            'title': data['title'],
+            'description': data['description'],
+            'headers': data['headers'],
+            'broken_links': data['broken_links'],
+            'duplicate_content': data['duplicate_content'],
+            'robots_content': data['robots_content'],
+            'sitemap_content': data['sitemap_content'],
+            'paragraphs': paragraph_chunk  # Use the chunk of paragraphs
+        }
+        prompt = create_prompt(current_chunk)
         response = openai.ChatCompletion.create(
             model="gpt-4",
             messages=[{"role": "user", "content": prompt}]
