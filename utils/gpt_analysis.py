@@ -44,7 +44,7 @@ def analyze_with_gpt(data):
     prompt = create_prompt(current_chunk)
 
     response = openai.ChatCompletion.create(
-        model="gpt-4",
+        model="o1-mini",
         messages=[{"role": "user", "content": prompt}]
     )
 
